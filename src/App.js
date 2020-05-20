@@ -160,12 +160,20 @@ export default function App() {
  * @typedef SwitchProps
  * @type {Object}
  * @property {Boolean} checked
+ * @property {String} [activeColor]
+ * @property {String} [inactiveColor]
  * @property {EventListener} onClick
  * @property {SwitchStyleObject} [style]
  *
  * @param {SwitchProps}
  */
-function Switch({ checked, onClick, style = {} }) {
+function Switch({
+  checked,
+  onClick,
+  activeColor = 'hsl(210deg, 80%, 70%)',
+  inactiveColor = 'hsl(210deg, 20%, 80%)',
+  style = {}
+}) {
   let css = {
     track: Object.assign(
       {
@@ -174,9 +182,7 @@ function Switch({ checked, onClick, style = {} }) {
         height: 16,
         width: 32,
         borderRadius: 8,
-        backgroundColor: checked
-          ? 'hsl(210deg, 80%, 70%)'
-          : 'hsl(210deg, 20%, 80%)',
+        backgroundColor: checked ? activeColor : inactiveColor,
         transition: 'background-color 0.2s ease-in-out'
       },
       style.track
