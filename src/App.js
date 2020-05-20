@@ -103,6 +103,80 @@ export function Checkbox({
   );
 }
 
+/**
+ * @callback EventListener
+ * @param {Event} event
+ * @returns {void}
+ *
+ * @callback StyleFunction
+ * @param {SwitchProps} props
+ * @returns {SwitchStyleObject}
+ *
+ * @typedef SwitchStyleObject
+ * @type {Object}
+ * @property {(CSSStyleDeclaration)} track
+ * @property {(CSSStyleDeclaration)} thumb
+ *
+ * @typedef SwitchProps
+ * @type {Object}
+ * @property {Boolean} checked
+ * @property {String} [activeColor]
+ * @property {String} [inactiveColor]
+ * @property {EventListener} onClick
+ * @property {(SwitchStyleObject|StyleFunction)} [style]
+ *
+ * @param {SwitchProps} props
+ */
+function Switch(props) {
+  let {
+    checked,
+    onClick,
+    activeColor = 'hsl(210deg, 80%, 70%)',
+    inactiveColor = 'hsl(210deg, 20%, 80%)',
+    style = {}
+  } = props;
+
+  if (typeof style === 'function') {
+    style = style(props);
+  }
+
+  let css = {
+    track: Object.assign(
+      {
+        boxSizing: 'border-box',
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+        height: 16,
+        width: 32,
+        borderRadius: 8,
+        backgroundColor: checked ? activeColor : inactiveColor,
+        transition: 'background-color 0.2s ease-in-out'
+      },
+      style.track
+    ),
+    thumb: Object.assign(
+      {
+        display: 'block',
+        width: 11,
+        height: 11,
+        backgroundColor: 'white',
+        borderRadius: '50%',
+        margin: '10%',
+        transform: `translateX(${checked ? 125 : 2.5}%)`,
+        transition: 'transform 0.2s ease-in-out'
+      },
+      style.thumb
+    )
+  };
+
+  return (
+    <span style={css.track} onClick={onClick}>
+      <span style={css.thumb} />
+    </span>
+  );
+}
+
 export default function App() {
   let [isChecked, setIsChecked] = React.useState(false);
 
@@ -143,67 +217,24 @@ export default function App() {
           onClick={() => setIsChecked(prevState => !prevState)}
         />
       </p>
+      <p>
+        <Switch
+          style={({ checked }) => ({
+            track: {
+              height: 22,
+              width: 44,
+              borderRadius: 11,
+              backgroundColor: checked ? 'limegreen' : 'crimson'
+            },
+            thumb: {
+              width: 14,
+              height: 14
+            }
+          })}
+          checked={!isChecked}
+          onClick={() => setIsChecked(prevState => !prevState)}
+        />
+      </p>
     </div>
-  );
-}
-
-/**
- * @callback EventListener
- * @param {Event} event
- * @returns {void}
- *
- * @typedef SwitchStyleObject
- * @type {Object}
- * @property {CSSStyleDeclaration} track
- * @property {CSSStyleDeclaration} thumb
- *
- * @typedef SwitchProps
- * @type {Object}
- * @property {Boolean} checked
- * @property {String} [activeColor]
- * @property {String} [inactiveColor]
- * @property {EventListener} onClick
- * @property {SwitchStyleObject} [style]
- *
- * @param {SwitchProps}
- */
-function Switch({
-  checked,
-  onClick,
-  activeColor = 'hsl(210deg, 80%, 70%)',
-  inactiveColor = 'hsl(210deg, 20%, 80%)',
-  style = {}
-}) {
-  let css = {
-    track: Object.assign(
-      {
-        display: 'block',
-        cursor: 'pointer',
-        height: 16,
-        width: 32,
-        borderRadius: 8,
-        backgroundColor: checked ? activeColor : inactiveColor,
-        transition: 'background-color 0.2s ease-in-out'
-      },
-      style.track
-    ),
-    thumb: Object.assign(
-      {
-        display: 'block',
-        width: 11,
-        height: 11,
-        backgroundColor: 'white',
-        borderRadius: '50%',
-        transform: checked ? 'translate(16px, 2.5px)' : 'translate(4px, 2.5px)',
-        transition: 'transform 0.2s ease-in-out'
-      },
-      style.thumb
-    )
-  };
-
-  return (
-    <span style={css.track} onClick={onClick}>
-      <span style={css.thumb} />
-    </span>
   );
 }
