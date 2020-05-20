@@ -152,35 +152,47 @@ export default function App() {
  * @param {Event} event
  * @returns {void}
  *
+ * @typedef SwitchStyleObject
+ * @type {Object}
+ * @property {CSSStyleDeclaration} track
+ * @property {CSSStyleDeclaration} thumb
+ *
  * @typedef SwitchProps
  * @type {Object}
  * @property {Boolean} checked
  * @property {EventListener} onClick
+ * @property {SwitchStyleObject} [style]
  *
  * @param {SwitchProps}
  */
-function Switch({ checked, onClick }) {
+function Switch({ checked, onClick, style = {} }) {
   let css = {
-    track: {
-      display: 'block',
-      cursor: 'pointer',
-      height: 16,
-      width: 32,
-      borderRadius: 8,
-      backgroundColor: checked
-        ? 'hsl(210deg, 80%, 70%)'
-        : 'hsl(210deg, 20%, 80%)',
-      transition: 'background-color 0.2s ease-in-out'
-    },
-    thumb: {
-      display: 'block',
-      width: 11,
-      height: 11,
-      backgroundColor: 'white',
-      borderRadius: '50%',
-      transform: checked ? 'translate(16px, 2.5px)' : 'translate(4px, 2.5px)',
-      transition: 'transform 0.2s ease-in-out'
-    }
+    track: Object.assign(
+      {
+        display: 'block',
+        cursor: 'pointer',
+        height: 16,
+        width: 32,
+        borderRadius: 8,
+        backgroundColor: checked
+          ? 'hsl(210deg, 80%, 70%)'
+          : 'hsl(210deg, 20%, 80%)',
+        transition: 'background-color 0.2s ease-in-out'
+      },
+      style.track
+    ),
+    thumb: Object.assign(
+      {
+        display: 'block',
+        width: 11,
+        height: 11,
+        backgroundColor: 'white',
+        borderRadius: '50%',
+        transform: checked ? 'translate(16px, 2.5px)' : 'translate(4px, 2.5px)',
+        transition: 'transform 0.2s ease-in-out'
+      },
+      style.thumb
+    )
   };
 
   return (
