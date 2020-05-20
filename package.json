@@ -1,10 +1,12 @@
 {
-  "name": "react",
+  "name": "custom-input-components",
   "version": "1.0.0",
-  "description": "React example starter project",
+  "description": "A playground for custom input components (checkbox, radio, switch) built in React.",
   "keywords": [
-    "react",
-    "starter"
+    "radio",
+    "checkbox",
+    "component",
+    "switch"
   ],
   "main": "src/index.js",
   "dependencies": {
